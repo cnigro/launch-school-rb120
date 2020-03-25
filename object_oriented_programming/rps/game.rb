@@ -94,12 +94,13 @@ class Computer < Player
 end
 
 class RPSGame
-  attr_accessor :human, :computer, :score
+  attr_accessor :human, :computer, :score, :move_history
 
   def initialize
     @human = Human.new
     @computer = Computer.new
     @score = {human => 0, computer => 0}
+    @move_history = {:human => [], :computer => []}
   end
 
   def display_welcome_message
@@ -127,6 +128,8 @@ class RPSGame
   def display_moves
     puts "#{human.name} chose #{human.move}."
     puts "#{computer.name} chose #{computer.move}."
+    move_history[:human] << human.move
+    move_history[:computer] << computer.move
   end
 
   def display_winner
