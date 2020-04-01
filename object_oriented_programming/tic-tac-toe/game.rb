@@ -1,5 +1,3 @@
-require 'pry'
-
 class Board
   WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
                   [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # columns
@@ -35,9 +33,9 @@ class Board
     end
     nil
   end
-  
+
   def reset
-    (1..9).each { |key| @squares[key] = Square.new()}
+    (1..9).each { |key| @squares[key] = Square.new() }
   end
 
   def draw
@@ -54,7 +52,7 @@ class Board
     puts "     |     |"
   end
 
-  private 
+  private
 
   def three_identical_markers?(squares)
     markers = squares.select(&:marked?).collect(&:marker)
@@ -119,11 +117,20 @@ class TTTGame
   end
 
   def display_welcome_message
-    puts "Let's play some Tic Tac Toe!\n"  
+    puts "Let's play some Tic Tac Toe!\n"
   end
 
   def display_goodbye_message
-    puts "Thanks for playing Tic Tac Toe!\n"  
+    puts "Thanks for playing Tic Tac Toe!\n"
+  end
+
+  def joinor(list, delimiter=', ', conjunction='or')
+    if list.size < 3
+      list.join(" #{conjunction} ")
+    else
+      list[-1] = "#{conjunction} #{list.last}"
+      list.join(delimiter)
+    end
   end
 
   def display_board
@@ -131,18 +138,18 @@ class TTTGame
     board.draw
     puts ""
   end
-  
+
   def clear_screen_and_display_board
     clear
     display_board
   end
-  
+
   def human_turn?
     @current_marker == HUMAN_MARKER
   end
 
   def human_moves
-    puts "Choose a square (#{board.unmarked_keys.join(', ')})"
+    puts "Choose a square (#{joinor(board.unmarked_keys)})"
     square = nil
 
     loop do
@@ -193,8 +200,8 @@ class TTTGame
   def play
     clear
     display_welcome_message
-    
-    loop do 
+
+    loop do
       display_board
 
       loop do
