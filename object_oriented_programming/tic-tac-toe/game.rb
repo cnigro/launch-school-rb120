@@ -86,6 +86,24 @@ class TTTGame
     end
   end
 
+  def round_winner
+    case board.winning_marker
+    when HUMAN_MARKER then @human
+    when COMPUTER_MARKER then @computer
+    else nil
+    end
+  end
+
+  def game_winner
+    if score[@computer] == 5
+      @computer
+    elsif score[@human] == 5
+      @human
+    else
+      nil
+    end
+  end
+
   def display_result
     clear_screen_and_display_board
 
@@ -108,11 +126,11 @@ class TTTGame
     answer == 'y'
   end
 
-  def increment_score(score, player)
+  def increment_score(player)
     score[player] += 1
   end
 
-  def display_score(score)
+  def display_score
     puts "Your score: #{score[@human]}, Computer score: #{score[@computer]}"
   end
 
@@ -130,9 +148,9 @@ class TTTGame
       end
 
       display_result
-      increment_score(score)
-      display_score(score)
-      break unless play_again?
+      increment_score(round_winner)
+      display_score
+      break unless !game_winner && play_again? 
       reset
     end
 
