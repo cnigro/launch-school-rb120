@@ -74,8 +74,9 @@ class TTTGame
 
   def computer_moves
     if board.vulnerable
-      # binding.pry
       board.vulnerable.marker = computer.marker
+    elsif board.unmarked_keys.include?(5)
+      board[5] = computer.marker
     else 
       board[board.unmarked_keys.sample] = computer.marker
     end
