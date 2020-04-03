@@ -1,4 +1,5 @@
 class Square
+  include Comparable
   INITIAL_MARKER = " "
 
   attr_accessor :marker
@@ -17,5 +18,9 @@ class Square
 
   def unmarked?
     marker == INITIAL_MARKER
+  end
+
+  def <=>(other)
+    self.marker <=> other.marker
   end
 end

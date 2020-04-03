@@ -1,5 +1,7 @@
 require_relative 'square'
 
+require 'pry'
+
 class Board
   WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
                   [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # columns
@@ -36,6 +38,18 @@ class Board
     nil
   end
 
+  # vulnerable method will both defend and attack
+  # instead of having two separate checks
+  def vulnerable
+    WINNING_LINES.each do |line|
+      squares = @squares.values_at(*line)
+      if two_identical_markers?(squares)
+        return squares.sort.first
+      end
+    end
+    nil
+  end
+
   def reset
     (1..9).each { |key| @squares[key] = Square.new() }
   end
@@ -56,9 +70,15 @@ class Board
 
   private
 
-  def three_identical_markers?(squares)
+  def three_identical_markers?(squares)      
     markers = squares.select(&:marked?).collect(&:marker)
     return false if markers.size != 3
+    markers.min == markers.max
+  end
+
+  def two_identical_markers?(squares)      
+    markers = squares.select(&:marked?).collect(&:marker)
+    return false if markers.size != 2
     markers.min == markers.max
   end
 end

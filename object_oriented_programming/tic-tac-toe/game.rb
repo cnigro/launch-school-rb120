@@ -73,7 +73,12 @@ class TTTGame
   end
 
   def computer_moves
-    board[board.unmarked_keys.sample] = computer.marker
+    if board.vulnerable
+      # binding.pry
+      board.vulnerable.marker = computer.marker
+    else 
+      board[board.unmarked_keys.sample] = computer.marker
+    end
   end
 
   def current_player_moves
@@ -127,7 +132,7 @@ class TTTGame
   end
 
   def increment_score(player)
-    score[player] += 1
+    score[player] += 1 if player
   end
 
   def display_score
