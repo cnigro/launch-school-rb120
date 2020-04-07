@@ -13,10 +13,13 @@ module Hand
 
   def total
     sum = 0
-    sum += cards.each do |card|
-      if card.face == "Ace" then 11
-      elsif ["Jack", "Queen", "King"].include?(card.face) then 10
-      else card.face.to_i
+    cards.each do |card|
+      if card.face == "Ace"
+        sum += 11
+      elsif ["Jack", "Queen", "King"].include?(card.face)
+        sum += 10
+      else 
+        sum += card.face.to_i
       end
     end
 
